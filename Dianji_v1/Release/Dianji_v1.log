@@ -1,0 +1,66 @@
+﻿Build started 2014/12/1 12:43:41.
+     1>Project "c:\Users\Chunting\documents\visual studio 2012\Projects\Dianji_v1\Dianji_v1\Dianji_v1.vcxproj" on node 2 (Rebuild target(s)).
+     1>ClCompile:
+         D:\Program Files\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ID:\Chunting\Cplex\cplex\include /ID:\Chunting\Cplex\concert\include /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /D IL_STD /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Thermal_Bus31.cpp
+         Thermal_Bus31.cpp
+     1>Thermal_Bus31.cpp : warning C4819: The file contains a character that cannot be represented in the current code page (936). Save the file in Unicode format to prevent data loss
+     1>Thermal_Bus31.cpp(277): warning C4244: '=' : conversion from 'IloNum' to 'int', possible loss of data
+     1>Thermal_Bus31.cpp(433): warning C4244: 'argument' : conversion from 'IloNum' to 'IloInt', possible loss of data
+     1>Thermal_Bus31.cpp(439): warning C4244: 'argument' : conversion from 'IloNum' to 'IloInt', possible loss of data
+     1>Thermal_Bus31.cpp(445): warning C4244: 'argument' : conversion from 'IloNum' to 'IloInt', possible loss of data
+     1>Thermal_Bus31.cpp(451): warning C4244: 'argument' : conversion from 'IloNum' to 'IloInt', possible loss of data
+     1>Thermal_Bus31.cpp(457): warning C4244: 'argument' : conversion from 'IloNum' to 'IloInt', possible loss of data
+     1>Thermal_Bus31.cpp(735): warning C4244: 'argument' : conversion from 'IloNum' to 'IloInt', possible loss of data
+     1>Thermal_Bus31.cpp(745): warning C4244: 'argument' : conversion from 'IloNum' to 'IloInt', possible loss of data
+     1>Thermal_Bus31.cpp(755): warning C4244: 'argument' : conversion from 'IloNum' to 'IloInt', possible loss of data
+     1>Thermal_Bus31.cpp(1007): warning C4244: 'argument' : conversion from 'IloNum' to 'IloInt', possible loss of data
+     1>Thermal_Bus31.cpp(1012): warning C4244: 'argument' : conversion from 'IloNum' to 'IloInt', possible loss of data
+     1>Thermal_Bus31.cpp(1121): warning C4244: 'argument' : conversion from 'IloNum' to 'IloInt', possible loss of data
+     1>Thermal_Bus31.cpp(1126): warning C4244: 'argument' : conversion from 'IloNum' to 'IloInt', possible loss of data
+       Link:
+         D:\Program Files\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"c:\users\chunting\documents\visual studio 2012\Projects\Dianji_v1\Release\Dianji_v1.exe" /INCREMENTAL:NO /NOLOGO D:\Chunting\Cplex\cplex\lib\x86_windows_vs2012\stat_mda\cplex1260.lib D:\Chunting\Cplex\cplex\lib\x86_windows_vs2012\stat_mda\ilocplex.lib D:\Chunting\Cplex\concert\lib\x86_windows_vs2012\stat_mda\concert.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"c:\users\chunting\documents\visual studio 2012\Projects\Dianji_v1\Release\Dianji_v1.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"c:\users\chunting\documents\visual studio 2012\Projects\Dianji_v1\Release\Dianji_v1.lib" /MACHINE:X86 /SAFESEH Release\Thermal_Bus31.obj
+         Generating code
+         Finished generating code
+     1>concert.lib(ilosstructi.obj) : warning LNK4099: PDB 'concert.pdb' was not found with 'concert.lib(ilosstructi.obj)' or at 'c:\users\chunting\documents\visual studio 2012\Projects\Dianji_v1\Release\concert.pdb'; linking object as if no debug info
+     1>concert.lib(ilohash.obj) : warning LNK4099: PDB 'concert.pdb' was not found with 'concert.lib(ilohash.obj)' or at 'c:\users\chunting\documents\visual studio 2012\Projects\Dianji_v1\Release\concert.pdb'; linking object as if no debug info
+     1>concert.lib(iloalg.obj) : warning LNK4099: PDB 'concert.pdb' was not found with 'concert.lib(iloalg.obj)' or at 'c:\users\chunting\documents\visual studio 2012\Projects\Dianji_v1\Release\concert.pdb'; linking object as if no debug info
+     1>concert.lib(iloenv.obj) : warning LNK4099: PDB 'concert.pdb' was not found with 'concert.lib(iloenv.obj)' or at 'c:\users\chunting\documents\visual studio 2012\Projects\Dianji_v1\Release\concert.pdb'; linking object as if no debug info
+     1>concert.lib(ilostimei.obj) : warning LNK4099: PDB 'concert.pdb' was not found with 'concert.lib(ilostimei.obj)' or at 'c:\users\chunting\documents\visual studio 2012\Projects\Dianji_v1\Release\concert.pdb'; linking object as if no debug info
+     1>concert.lib(iloallocator.obj) : warning LNK4099: PDB 'concert.pdb' was not found with 'concert.lib(iloallocator.obj)' or at 'c:\users\chunting\documents\visual studio 2012\Projects\Dianji_v1\Release\concert.pdb'; linking object as if no debug info
+     1>concert.lib(ilosatomi.obj) : warning LNK4099: PDB 'concert.pdb' was not found with 'concert.lib(ilosatomi.obj)' or at 'c:\users\chunting\documents\visual studio 2012\Projects\Dianji_v1\Release\concert.pdb'; linking object as if no debug info
+     1>concert.lib(iloserror.obj) : warning LNK4099: PDB 'concert.pdb' was not found with 'concert.lib(iloserror.obj)' or at 'c:\users\chunting\documents\visual studio 2012\Projects\Dianji_v1\Release\concert.pdb'; linking object as if no debug info
+     1>concert.lib(ilosdisplayi.obj) : warning LNK4099: PDB 'concert.pdb' was not found with 'concert.lib(ilosdisplayi.obj)' or at 'c:\users\chunting\documents\visual studio 2012\Projects\Dianji_v1\Release\concert.pdb'; linking object as if no debug info
+     1>concert.lib(ilorandom.obj) : warning LNK4099: PDB 'concert.pdb' was not found with 'concert.lib(ilorandom.obj)' or at 'c:\users\chunting\documents\visual studio 2012\Projects\Dianji_v1\Release\concert.pdb'; linking object as if no debug info
+     1>concert.lib(ilothread.obj) : warning LNK4099: PDB 'concert.pdb' was not found with 'concert.lib(ilothread.obj)' or at 'c:\users\chunting\documents\visual studio 2012\Projects\Dianji_v1\Release\concert.pdb'; linking object as if no debug info
+     1>concert.lib(ilossol.obj) : warning LNK4099: PDB 'concert.pdb' was not found with 'concert.lib(ilossol.obj)' or at 'c:\users\chunting\documents\visual studio 2012\Projects\Dianji_v1\Release\concert.pdb'; linking object as if no debug info
+     1>concert.lib(ilotypes.obj) : warning LNK4099: PDB 'concert.pdb' was not found with 'concert.lib(ilotypes.obj)' or at 'c:\users\chunting\documents\visual studio 2012\Projects\Dianji_v1\Release\concert.pdb'; linking object as if no debug info
+     1>concert.lib(iloexpression.obj) : warning LNK4099: PDB 'concert.pdb' was not found with 'concert.lib(iloexpression.obj)' or at 'c:\users\chunting\documents\visual studio 2012\Projects\Dianji_v1\Release\concert.pdb'; linking object as if no debug info
+     1>concert.lib(ilosbasic.obj) : warning LNK4099: PDB 'concert.pdb' was not found with 'concert.lib(ilosbasic.obj)' or at 'c:\users\chunting\documents\visual studio 2012\Projects\Dianji_v1\Release\concert.pdb'; linking object as if no debug info
+     1>concert.lib(iloset.obj) : warning LNK4099: PDB 'concert.pdb' was not found with 'concert.lib(iloset.obj)' or at 'c:\users\chunting\documents\visual studio 2012\Projects\Dianji_v1\Release\concert.pdb'; linking object as if no debug info
+     1>concert.lib(iloconstraint.obj) : warning LNK4099: PDB 'concert.pdb' was not found with 'concert.lib(iloconstraint.obj)' or at 'c:\users\chunting\documents\visual studio 2012\Projects\Dianji_v1\Release\concert.pdb'; linking object as if no debug info
+     1>concert.lib(iloanyexpr.obj) : warning LNK4099: PDB 'concert.pdb' was not found with 'concert.lib(iloanyexpr.obj)' or at 'c:\users\chunting\documents\visual studio 2012\Projects\Dianji_v1\Release\concert.pdb'; linking object as if no debug info
+     1>concert.lib(iloextractable.obj) : warning LNK4099: PDB 'concert.pdb' was not found with 'concert.lib(iloextractable.obj)' or at 'c:\users\chunting\documents\visual studio 2012\Projects\Dianji_v1\Release\concert.pdb'; linking object as if no debug info
+     1>concert.lib(ilomap.obj) : warning LNK4099: PDB 'concert.pdb' was not found with 'concert.lib(ilomap.obj)' or at 'c:\users\chunting\documents\visual studio 2012\Projects\Dianji_v1\Release\concert.pdb'; linking object as if no debug info
+     1>concert.lib(ilosmodel.obj) : warning LNK4099: PDB 'concert.pdb' was not found with 'concert.lib(ilosmodel.obj)' or at 'c:\users\chunting\documents\visual studio 2012\Projects\Dianji_v1\Release\concert.pdb'; linking object as if no debug info
+     1>concert.lib(ilosolution.obj) : warning LNK4099: PDB 'concert.pdb' was not found with 'concert.lib(ilosolution.obj)' or at 'c:\users\chunting\documents\visual studio 2012\Projects\Dianji_v1\Release\concert.pdb'; linking object as if no debug info
+     1>concert.lib(iloiterator.obj) : warning LNK4099: PDB 'concert.pdb' was not found with 'concert.lib(iloiterator.obj)' or at 'c:\users\chunting\documents\visual studio 2012\Projects\Dianji_v1\Release\concert.pdb'; linking object as if no debug info
+     1>concert.lib(ilossequencei.obj) : warning LNK4099: PDB 'concert.pdb' was not found with 'concert.lib(ilossequencei.obj)' or at 'c:\users\chunting\documents\visual studio 2012\Projects\Dianji_v1\Release\concert.pdb'; linking object as if no debug info
+     1>concert.lib(ilocollection.obj) : warning LNK4099: PDB 'concert.pdb' was not found with 'concert.lib(ilocollection.obj)' or at 'c:\users\chunting\documents\visual studio 2012\Projects\Dianji_v1\Release\concert.pdb'; linking object as if no debug info
+     1>concert.lib(ilocollectionstruct.obj) : warning LNK4099: PDB 'concert.pdb' was not found with 'concert.lib(ilocollectionstruct.obj)' or at 'c:\users\chunting\documents\visual studio 2012\Projects\Dianji_v1\Release\concert.pdb'; linking object as if no debug info
+     1>concert.lib(ilosimplecollection.obj) : warning LNK4099: PDB 'concert.pdb' was not found with 'concert.lib(ilosimplecollection.obj)' or at 'c:\users\chunting\documents\visual studio 2012\Projects\Dianji_v1\Release\concert.pdb'; linking object as if no debug info
+     1>concert.lib(ilocollectionoperator.obj) : warning LNK4099: PDB 'concert.pdb' was not found with 'concert.lib(ilocollectionoperator.obj)' or at 'c:\users\chunting\documents\visual studio 2012\Projects\Dianji_v1\Release\concert.pdb'; linking object as if no debug info
+     1>concert.lib(ilocollectioniterator.obj) : warning LNK4099: PDB 'concert.pdb' was not found with 'concert.lib(ilocollectioniterator.obj)' or at 'c:\users\chunting\documents\visual studio 2012\Projects\Dianji_v1\Release\concert.pdb'; linking object as if no debug info
+     1>concert.lib(iloskiplist.obj) : warning LNK4099: PDB 'concert.pdb' was not found with 'concert.lib(iloskiplist.obj)' or at 'c:\users\chunting\documents\visual studio 2012\Projects\Dianji_v1\Release\concert.pdb'; linking object as if no debug info
+     1>concert.lib(ilonumfunci.obj) : warning LNK4099: PDB 'concert.pdb' was not found with 'concert.lib(ilonumfunci.obj)' or at 'c:\users\chunting\documents\visual studio 2012\Projects\Dianji_v1\Release\concert.pdb'; linking object as if no debug info
+     1>concert.lib(iloparami.obj) : warning LNK4099: PDB 'concert.pdb' was not found with 'concert.lib(iloparami.obj)' or at 'c:\users\chunting\documents\visual studio 2012\Projects\Dianji_v1\Release\concert.pdb'; linking object as if no debug info
+     1>concert.lib(ilointervalsi.obj) : warning LNK4099: PDB 'concert.pdb' was not found with 'concert.lib(ilointervalsi.obj)' or at 'c:\users\chunting\documents\visual studio 2012\Projects\Dianji_v1\Release\concert.pdb'; linking object as if no debug info
+     1>concert.lib(evalkernel.obj) : warning LNK4099: PDB 'concert.pdb' was not found with 'concert.lib(evalkernel.obj)' or at 'c:\users\chunting\documents\visual studio 2012\Projects\Dianji_v1\Release\concert.pdb'; linking object as if no debug info
+     1>concert.lib(evaluator.obj) : warning LNK4099: PDB 'concert.pdb' was not found with 'concert.lib(evaluator.obj)' or at 'c:\users\chunting\documents\visual studio 2012\Projects\Dianji_v1\Release\concert.pdb'; linking object as if no debug info
+     1>concert.lib(evalexpand.obj) : warning LNK4099: PDB 'concert.pdb' was not found with 'concert.lib(evalexpand.obj)' or at 'c:\users\chunting\documents\visual studio 2012\Projects\Dianji_v1\Release\concert.pdb'; linking object as if no debug info
+     1>concert.lib(strtod.obj) : warning LNK4099: PDB 'concert.pdb' was not found with 'concert.lib(strtod.obj)' or at 'c:\users\chunting\documents\visual studio 2012\Projects\Dianji_v1\Release\concert.pdb'; linking object as if no debug info
+         Dianji_v1.vcxproj -> c:\users\chunting\documents\visual studio 2012\Projects\Dianji_v1\Release\Dianji_v1.exe
+     1>Done Building Project "c:\Users\Chunting\documents\visual studio 2012\Projects\Dianji_v1\Dianji_v1\Dianji_v1.vcxproj" (Rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:07.58
