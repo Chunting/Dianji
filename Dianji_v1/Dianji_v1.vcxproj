@@ -81,6 +81,9 @@
   <ItemGroup>
     <ClCompile Include="Thermal_Bus31.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Thermal_Bus31.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
