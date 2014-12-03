@@ -1,22 +1,19 @@
-﻿Build started 2014/12/1 16:15:05.
-     1>Project "C:\Users\Chunting\documents\visual studio 2012\Projects\Dianji_v1\Dianji_v1\Dianji_v1.vcxproj" on node 2 (Rebuild target(s)).
+﻿Build started 2014/12/2 21:12:23.
+     1>Project "C:\Users\Chunting\documents\visual studio 2012\Projects\Dianji_v1\Dianji_v1\Dianji_v1.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          D:\Program Files\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ID:\Chunting\Cplex\cplex\include /ID:\Chunting\Cplex\concert\include /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /D IL_STD /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Thermal_Bus31.cpp
          Thermal_Bus31.cpp
      1>Thermal_Bus31.cpp : warning C4819: The file contains a character that cannot be represented in the current code page (936). Save the file in Unicode format to prevent data loss
-     1>c:\users\chunting\documents\visual studio 2012\projects\dianji_v1\dianji_v1\Thermal_Bus31.h(273): warning C4244: '=' : conversion from 'IloNum' to 'int', possible loss of data
-     1>Thermal_Bus31.cpp(140): warning C4244: 'argument' : conversion from 'IloNum' to 'IloInt', possible loss of data
-     1>Thermal_Bus31.cpp(146): warning C4244: 'argument' : conversion from 'IloNum' to 'IloInt', possible loss of data
-     1>Thermal_Bus31.cpp(152): warning C4244: 'argument' : conversion from 'IloNum' to 'IloInt', possible loss of data
-     1>Thermal_Bus31.cpp(158): warning C4244: 'argument' : conversion from 'IloNum' to 'IloInt', possible loss of data
-     1>Thermal_Bus31.cpp(164): warning C4244: 'argument' : conversion from 'IloNum' to 'IloInt', possible loss of data
-     1>Thermal_Bus31.cpp(440): warning C4244: 'argument' : conversion from 'IloNum' to 'IloInt', possible loss of data
-     1>Thermal_Bus31.cpp(450): warning C4244: 'argument' : conversion from 'IloNum' to 'IloInt', possible loss of data
-     1>Thermal_Bus31.cpp(460): warning C4244: 'argument' : conversion from 'IloNum' to 'IloInt', possible loss of data
-     1>Thermal_Bus31.cpp(701): warning C4244: 'argument' : conversion from 'IloNum' to 'IloInt', possible loss of data
-     1>Thermal_Bus31.cpp(706): warning C4244: 'argument' : conversion from 'IloNum' to 'IloInt', possible loss of data
-     1>Thermal_Bus31.cpp(813): warning C4244: 'argument' : conversion from 'IloNum' to 'IloInt', possible loss of data
-     1>Thermal_Bus31.cpp(818): warning C4244: 'argument' : conversion from 'IloNum' to 'IloInt', possible loss of data
+     1>c:\users\chunting\documents\visual studio 2012\projects\dianji_v1\dianji_v1\Thermal_Bus31.h(77): warning C4101: 't' : unreferenced local variable
+     1>c:\users\chunting\documents\visual studio 2012\projects\dianji_v1\dianji_v1\Thermal_Bus31.h(266): warning C4244: '=' : conversion from 'IloNum' to 'int', possible loss of data
+     1>Thermal_Bus31.cpp(125): warning C4244: 'argument' : conversion from 'IloNum' to 'IloInt', possible loss of data
+     1>Thermal_Bus31.cpp(131): warning C4244: 'argument' : conversion from 'IloNum' to 'IloInt', possible loss of data
+     1>Thermal_Bus31.cpp(137): warning C4244: 'argument' : conversion from 'IloNum' to 'IloInt', possible loss of data
+     1>Thermal_Bus31.cpp(143): warning C4244: 'argument' : conversion from 'IloNum' to 'IloInt', possible loss of data
+     1>Thermal_Bus31.cpp(149): warning C4244: 'argument' : conversion from 'IloNum' to 'IloInt', possible loss of data
+     1>Thermal_Bus31.cpp(461): warning C4244: 'argument' : conversion from 'IloNum' to 'IloInt', possible loss of data
+     1>Thermal_Bus31.cpp(471): warning C4244: 'argument' : conversion from 'IloNum' to 'IloInt', possible loss of data
+     1>Thermal_Bus31.cpp(481): warning C4244: 'argument' : conversion from 'IloNum' to 'IloInt', possible loss of data
        Link:
          D:\Program Files\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Chunting\documents\visual studio 2012\Projects\Dianji_v1\Release\Dianji_v1.exe" /INCREMENTAL:NO /NOLOGO D:\Chunting\Cplex\cplex\lib\x86_windows_vs2012\stat_mda\cplex1260.lib D:\Chunting\Cplex\cplex\lib\x86_windows_vs2012\stat_mda\ilocplex.lib D:\Chunting\Cplex\concert\lib\x86_windows_vs2012\stat_mda\concert.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Chunting\documents\visual studio 2012\Projects\Dianji_v1\Release\Dianji_v1.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Chunting\documents\visual studio 2012\Projects\Dianji_v1\Release\Dianji_v1.lib" /MACHINE:X86 /SAFESEH Release\Thermal_Bus31.obj
          Generating code
@@ -59,8 +56,8 @@
      1>concert.lib(evalexpand.obj) : warning LNK4099: PDB 'concert.pdb' was not found with 'concert.lib(evalexpand.obj)' or at 'C:\Users\Chunting\documents\visual studio 2012\Projects\Dianji_v1\Release\concert.pdb'; linking object as if no debug info
      1>concert.lib(strtod.obj) : warning LNK4099: PDB 'concert.pdb' was not found with 'concert.lib(strtod.obj)' or at 'C:\Users\Chunting\documents\visual studio 2012\Projects\Dianji_v1\Release\concert.pdb'; linking object as if no debug info
          Dianji_v1.vcxproj -> C:\Users\Chunting\documents\visual studio 2012\Projects\Dianji_v1\Release\Dianji_v1.exe
-     1>Done Building Project "C:\Users\Chunting\documents\visual studio 2012\Projects\Dianji_v1\Dianji_v1\Dianji_v1.vcxproj" (Rebuild target(s)).
+     1>Done Building Project "C:\Users\Chunting\documents\visual studio 2012\Projects\Dianji_v1\Dianji_v1\Dianji_v1.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:06.22
+Time Elapsed 00:00:07.05

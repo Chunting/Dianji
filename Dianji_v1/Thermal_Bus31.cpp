@@ -6,21 +6,6 @@ In this version, I put all the result data into a single file, Result.dat
 
 int main(int argc, char *argv[])
 {
-	char* OUTFILEDATA= "./Bus31/check.dat"  ;  //#define声明以及初始化符号常量；此外还可用关键字const unsigned float OUTFILEDATA="check.dat"声明
-	char* OUTFILERESULT="./Bus31/result.dat";
-	char* lp= "./Bus31/hydrothermal.lp" ;    
-
-	//系统数据
-	char* SYSTEMDATA= "./Bus31/SystemData.dat" ;  //cycle J horizon flk tlk
-
-	//水电数据
-	char* APPDATA ="./Bus31/AppData.dat";     //I,K,LAMDA,PR DISK
-	//火电数据
-	char* THUNITDATA= "./Bus31/thunitdata.dat";
-
-	//网络数据
-	char* NETDATA= "./Bus31/netdata.dat";
-	char* GAMADATA ="./Bus31/gamadata.dat";
 	IloEnv env;
 	int t,i,j,k,l,d,day;
 	try
@@ -71,12 +56,12 @@ int main(int argc, char *argv[])
 		//*************读取网络数据，王圭070411**************************		
 		IloNumArray unitLocation(env,thUnitNum);
 		IloNumArray demandLocation(env,demandNum);
-		//	IloNumArray demand(env,demandNum);
-
-		Matrix2 demand(env,demandNum);//二维数组
+		IloNumArray demand(env,demandNum);
+		/*
+		//Matrix2 demand(env,demandNum);//二维数组
 		for(i=0;i<demandNum;i++)
-			demand[i]= IloNumArray(env,cycle+1);
-
+		demand[i]= IloNumArray(env,cycle+1);
+		*/
 		IloNumArray lineCap(env,lineNum);
 
 		readNetData(NETDATA,env, 
@@ -102,7 +87,7 @@ int main(int argc, char *argv[])
 		IloNumArray thhotUpCost(env,thUnitNum);
 		IloNumArray thcoldUpCost(env,thUnitNum);
 		IloNumArray thdelta(env,thUnitNum);			
-		IloNumArray thfirstLast(env,thUnitNum);
+		//IloNumArray thfirstLast(env,thUnitNum);
 		IloNumArray thmaxR(env,thUnitNum);
 		IloNumArray tha(env,thUnitNum);
 		IloNumArray thb(env,thUnitNum);
@@ -123,7 +108,7 @@ int main(int argc, char *argv[])
 			thhotUpCost,                       //热启动费用
 			thcoldUpCost,			           //冷启动费用
 			thdelta,						      //爬升
-			thfirstLast,                       //首末开机约束，取0，1
+			//	thfirstLast,                       //首末开机约束，取0，1
 			thmaxR,                          //机组最大备用	
 			tha,							     //燃料费用曲线上系数a		
 			thb,							     //燃料费用曲线上系数b		
@@ -201,43 +186,49 @@ int main(int argc, char *argv[])
 		tfile<<endl<<"unit location"<<endl;
 		for (i=0;i<thUnitNum;i++)
 		{
-			tfile<<unitLocation[i]<<"\t";
+			tfile<<unitLocation[i]<<"\t"; 
+			if( (i+1)%16 == 0 && i != 0)
+				tfile << endl;
 		}
 
 		tfile<<endl<<"demand location"<<endl;
 		for (i=0;i<demandNum;i++)
 		{
 			tfile<<demandLocation[i]<<"\t";
+			if( (i+1)%11 == 0 && i != 0)
+				tfile << endl;
 		}
 		tfile<<endl<<"demand***************After changed**********"<<endl;
+
+		for (i=0;i<demandNum;i++)
+		{
+			tfile<<demand[i]<<"\t";
+			if( (i+1)%11 == 0 && i != 0 )
+				tfile << endl;
+		}
+
 		/**
 		for (i=0;i<demandNum;i++)
 		{
-		tfile<<demand[i]<<"\t";
+		for(t=1;t<cycle+1;t++)
+		tfile<<demand[i][t]<<"\t";
+		tfile<<endl;
 		}
-
-		**/
-		for (i=0;i<demandNum;i++)
-		{
-			for(t=1;t<cycle+1;t++)
-				tfile<<demand[i][t]<<"\t";
-			tfile<<endl;
-		}
-
+		**/	
 		tfile<<endl<<"line capacity"<<endl;
 		for (i=0;i<lineNum;i++)
 		{
 			tfile<<lineCap[i]<<"\t";
+			if( (i+1)%39 == 0 && i != 0)
+				tfile << endl;
 		}
 
-		tfile<<"***************************火电数据************************88"<<endl;
 		tfile<<endl<<"Gama: ---------Begin-------"<<endl; 
 		tfile<<"busNum "<<busNum<<" linNum "<<lineNum<<endl;
 		for(j=0;j<lineNum;j++)
 		{
 			for(i=0;i<busNum;i++)
 			{
-				if(i%10==0) tfile<<endl;
 				tfile<<gama[j][i]<<"  ";
 			}
 			tfile<<endl;
@@ -248,92 +239,122 @@ int main(int argc, char *argv[])
 		for(i=0;i<thUnitNum;i++)
 		{
 			tfile<<thminPower[i]<<" ";
+			if( (i+1)%16 == 0 && i != 0)
+				tfile << endl;
 		}
 		tfile<<endl<<"thmaxPower"<<endl;
 		for(i=0;i<thUnitNum;i++)
 		{
 			tfile<<thmaxPower[i]<<" ";
+			if( (i+1)%16 == 0 && i != 0)
+				tfile << endl;
 		}
 		tfile<<endl<<"thminDown"<<endl;
 		for(i=0;i<thUnitNum;i++)
 		{
 			tfile<<thminDown[i]<<"  ";
+			if( (i+1)%16 == 0 && i != 0)
+				tfile << endl;
 		}
 		tfile<<endl<<"thminUp"<<endl;
 		for(i=0;i<thUnitNum;i++)
 		{
 			tfile<<thminUp[i]<<"  ";
+			if( (i+1)%16 == 0 && i != 0)
+				tfile << endl;
 		}
 		tfile<<endl<<"thcoldUpTime"<<endl;
 		for(i=0;i<thUnitNum;i++)
 		{
 			tfile<<thcoldUpTime[i]<<"  ";
+			if( (i+1)%16 == 0 && i != 0)
+				tfile << endl;
 		}
 		tfile<<endl<<"thfuelCostPieceNum"<<endl;
 		for(i=0;i<thUnitNum;i++)
 		{
 			tfile<<thfuelCostPieceNum[i]<<" ";
+			if( (i+1)%16 == 0 && i != 0)
+				tfile << endl;
 		}
 		tfile<<endl<<"thhotUpCost"<<endl;
 		for(i=0;i<thUnitNum;i++)
 		{
 			tfile<<thhotUpCost[i]<<"  ";
+			if( (i+1)%16 == 0 && i != 0)
+				tfile << endl;
 		}
 		tfile<<endl<<"thcoldUpCost"<<endl;
 		for(i=0;i<thUnitNum;i++)
 		{
 			tfile<<thcoldUpCost[i]<<" ";
+			if( (i+1)%16 == 0 && i != 0)
+				tfile << endl;
 		}
 		tfile<<endl<<"thdelta"<<endl;
 		for(i=0;i<thUnitNum;i++)
 		{
 			tfile<<thdelta[i]<<" ";
-		}
-		tfile<<endl<<"thfirstLast"<<endl;
-		for(i=0;i<thUnitNum;i++)
-		{
-			tfile<<thfirstLast[i]<<" ";
+			if( (i+1)%16 == 0 && i != 0)
+				tfile << endl;
 		}
 		tfile<<endl<<"thmaxR"<<endl;
 		for(i=0;i<thUnitNum;i++)
 		{
 			tfile<<thmaxR[i]<<" ";
+			if( (i+1)%16 == 0 && i != 0)
+				tfile << endl;
 		}
 		tfile<<endl<<"tha"<<endl;
 		for(i=0;i<thUnitNum;i++)
 		{
 			tfile<<tha[i]<<"  ";
+			if( (i+1)%16 == 0 && i != 0)
+				tfile << endl;
 		}
 		tfile<<endl<<"thb"<<endl;
 		for(i=0;i<thUnitNum;i++)
 		{
 			tfile<<thb[i]<<"  ";
+			if( (i+1)%16 == 0 && i != 0)
+				tfile << endl;
 		}
 		tfile<<endl<<"thc"<<endl;
 		for(i=0;i<thUnitNum;i++)
 		{
 			tfile<<thc[i]<<"  ";
+			if( (i+1)%16 == 0 && i != 0)
+				tfile << endl;
 		}
 		tfile<<endl<<"thminFuelCost"<<endl;
 		for(i=0;i<thUnitNum;i++)
 		{
 			tfile<<thminFuelCost[i]<<" ";
+			if( (i+1)%16 == 0 && i != 0)
+				tfile << endl;
 		}
 		tfile<<endl<<"thmaxFuelCost"<<endl;
 		for(i=0;i<thUnitNum;i++)
 		{
 			tfile<<thmaxFuelCost[i]<<" ";
+			if( (i+1)%16 == 0 && i != 0)
+				tfile << endl;
 		}
 		tfile<<endl<<"thinitState"<<endl;
 		for(i=0;i<thUnitNum;i++)
 		{
 			tfile<<thinitState[i]<<"\t";
+			if( (i+1)%16 == 0 && i != 0)
+				tfile << endl;
 		}
 		tfile<<endl<<"thinitPower"<<endl;
 		for(i=0;i<thUnitNum;i++)
 		{
 			tfile<<thinitPower[i]<<" ";
+			if( (i+1)%16 == 0 && i != 0)
+				tfile << endl;
 		}
+
 		tfile<<endl<<"**************火电机组分段线性数据***********"<<endl;
 		tfile<<"thminFuelPieceCost"<<endl;
 		for(i=0;i<thUnitNum;i++)
@@ -468,7 +489,7 @@ int main(int argc, char *argv[])
 			{
 				thsummaxp+=thmaxPower[i]*state[i][t];
 			}
-			model.add(thsummaxp>=sysDemand[t]+sysReserve[t]);
+			model.add(thsummaxp >= sysDemand[t]+sysReserve[t]);
 		}
 		//可行解中的一个约束
 		for(t=1;t<cycle+1;t++)
@@ -477,13 +498,14 @@ int main(int argc, char *argv[])
 
 			for(i=0;i<thUnitNum;i++)
 			{
-				thsumminp+=thminPower[i]*state[i][t];
+				thsumminp += thminPower[i]*state[i][t];
 			}
-			model.add(thsumminp<=sysDemand[t]);
+		//	model.add(thsumminp <= sysDemand[t]);
 		}
 
 		//***********************火电机组约束***********************
 		//初始状态约束
+		/*
 		for(i = 0; i < thUnitNum; i++)
 		{
 			if(thinitState[i] < 0)
@@ -505,14 +527,14 @@ int main(int argc, char *argv[])
 			model.add(startUp[i][0] == 0);
 			model.add(shutDown[i][0] == 0);		
 		}
-
+*/
 		//开关机状态约束（即状态转移约束）
 		for(i = 0; i < thUnitNum; i++)
 		{
 			for(t = 1; t < cycle+1; t++)
 			{
-				model.add(state[i][t]-state[i][t-1]-startUp[i][t]+shutDown[i][t]==0);
-				model.add(startUp[i][t] + shutDown[i][t]<=1);
+		//		model.add(state[i][t]-state[i][t-1]-startUp[i][t]+shutDown[i][t]==0);
+		//		model.add(startUp[i][t] + shutDown[i][t]<=1);
 			}
 		}
 
@@ -533,8 +555,8 @@ int main(int argc, char *argv[])
 				{
 					sum2 += startUp[i][k];
 				}
-				model.add(startUp[i][t] + sum1 <= 1);
-				model.add(shutDown[i][t] + sum2 <= 1);
+		//		model.add(startUp[i][t] + sum1 <= 1);
+		//		model.add(shutDown[i][t] + sum2 <= 1);
 			}
 		}
 
@@ -586,16 +608,17 @@ int main(int argc, char *argv[])
 			{
 				for(j=0;j<thfuelCostPieceNum[i];j++)
 				{					
-					model.add(thermalPiecePower[i][t][j]<=thmaxPiecePower[i][j]*pieceState[i][t][j]);
-					model.add(thermalPiecePower[i][t][j]>=thminPiecePower[i][j]*pieceState[i][t][j]);
-					model.add(fuelPieceCost[i][t][j]<=thmaxFuelPieceCost[i][j]*pieceState[i][t][j]);
-					model.add(fuelPieceCost[i][t][j]>=thminFuelPieceCost[i][j]*pieceState[i][t][j]);
+				//	model.add(thermalPiecePower[i][t][j]<=thmaxPiecePower[i][j]*pieceState[i][t][j]);
+				//	model.add(thermalPiecePower[i][t][j]>=thminPiecePower[i][j]*pieceState[i][t][j]);
+				//	model.add(fuelPieceCost[i][t][j]<=thmaxFuelPieceCost[i][j]*pieceState[i][t][j]);
+				//	model.add(fuelPieceCost[i][t][j]>=thminFuelPieceCost[i][j]*pieceState[i][t][j]);
 					//model.add(fuelPieceCost[i][t][j]==thminFuelPieceCost[i][j]*pieceState[i][t][j]+thfuelCostPieceSlope[i][j]*(thermalPiecePower[i][t][j]-thminPiecePower[i][j]*pieceState[i][t][j]));
 					//修改by xjlei
 					model.add(fuelPieceCost[i][t][j]==thminFuelPieceCost[i][j]*pieceState[i][t][j]+(thmaxFuelPieceCost[i][j]-thminFuelPieceCost[i][j])/(thmaxPiecePower[i][j]-thminPiecePower[i][j])*(thermalPiecePower[i][t][j]-thminPiecePower[i][j]*pieceState[i][t][j])-tha[i]/8*(thmaxPiecePower[i][j]-thminPiecePower[i][j])*(thmaxPiecePower[i][j]-thminPiecePower[i][j])*pieceState[i][t][j]);
 				}
 			}
 		}
+		
 		//发电状态只能同时处于分段上的一段
 		for(i=0;i<thUnitNum;i++)
 		{
@@ -621,9 +644,10 @@ int main(int argc, char *argv[])
 				{
 					sum+=thermalPiecePower[i][t][j];
 				}
-				model.add(thermalPower[i][t]==sum);
+				model.add(thermalPower[i][t] == sum);
 			}
 		}
+		
 		//the constraint of fuel cost
 		for(i=0;i<thUnitNum;i++)
 		{
@@ -632,14 +656,13 @@ int main(int argc, char *argv[])
 				IloExpr sum(env);
 				for(j=0;j<thfuelCostPieceNum[i];j++)
 				{
-					sum+=fuelPieceCost[i][t][j];
+					sum += fuelPieceCost[i][t][j];
 				}
-				model.add(fuelCost[i][t]==sum);
+				model.add(fuelCost[i][t] == sum);
 			}
 		}
 
 		//备用
-
 		for(i=0;i<thUnitNum;i++)
 		{
 			for(t=1;t<cycle+1;t++)
@@ -653,8 +676,8 @@ int main(int argc, char *argv[])
 		{
 			for(t=1;t<cycle+1;t++)
 			{
-				model.add(upCost[i][t]<=thcoldUpCost[i]*startUp[i][t]);
-				model.add(upCost[i][t]>=thhotUpCost[i]*startUp[i][t]);
+		//		model.add(upCost[i][t]<=thcoldUpCost[i]*startUp[i][t]);
+		//		model.add(upCost[i][t]>=thhotUpCost[i]*startUp[i][t]);
 			}
 		}
 		//********************add by hx,爬升约束***********************
@@ -675,7 +698,7 @@ int main(int argc, char *argv[])
 			{
 				thsum+=thermalPower[i][t];
 			}
-			model.add(thsum==sysDemand[t]);
+			model.add(thsum == sysDemand[t]);
 		}
 
 		//备用约束
@@ -686,7 +709,7 @@ int main(int argc, char *argv[])
 			{
 				thsum+=thermalR[i][t];
 			}
-			model.add(thsum>=sysReserve[t]);
+			model.add(thsum >= sysReserve[t]);
 		}
 
 		//传输约束
@@ -698,15 +721,14 @@ int main(int argc, char *argv[])
 				IloExpr sumGamaD(env);
 				for (i = 0; i < thUnitNum; i++)
 				{
-					sumGamaP+=gama[l][unitLocation[i]-1]*thermalPower[i][t];
+					sumGamaP+=gama[l][(int)(unitLocation[i]-1)]*thermalPower[i][t];
 				}
-
 				for (d = 0; d < demandNum; d++)
 				{
-					sumGamaD+=gama[l][demandLocation[d]-1]*sysDemand[t]*demand[d][t];
+					sumGamaD+=gama[l][(int)(demandLocation[d]-1)]*sysDemand[t]*demand[d];
 				} 
-				model.add(sumGamaP-sumGamaD+lineCap[l]>=0);				 		
-				model.add(sumGamaP-sumGamaD-lineCap[l]<=0); 
+			//	model.add(sumGamaP-sumGamaD+lineCap[l]>=0);				 		
+			//	model.add(sumGamaP-sumGamaD-lineCap[l]<=0); 
 			}
 		}
 
@@ -736,7 +758,6 @@ int main(int argc, char *argv[])
 		env.out() << "solution time   = " <<timer.getTime()<<endl;
 		env.out() << "EpGap           = " <<cplex.getParam(cplex.EpGap)<<endl;
 
-
 		ofstream outf(OUTFILERESULT,ios::out);
 		if(!outf)
 			cout<<"cannot open 'result.dat'"<<OUTFILERESULT<<endl;
@@ -757,7 +778,7 @@ int main(int argc, char *argv[])
 		cout<<endl<<"allFuelCost="<<allFuelCost<<endl;
 		outf<<"allFuelCost\t"<<allFuelCost<<endl;
 		if(!outf)
-			cout<<"cannot open 'result.dat'"<<OUTFILERESULT<<endl;
+			cout<<"cannot open 'Result.dat'"<<OUTFILERESULT<<endl;
 		outf<<"state"<<endl;
 		for(t=1;t<cycle+1;t++)
 		{
@@ -770,38 +791,42 @@ int main(int argc, char *argv[])
 			}
 			outf<<endl;        
 		}
-
-		outf<<endl<<"thermalPower"<<endl;
+		outf.close();
+		
+		ofstream outf_ThUnit(Resutl_ThUnit,ios::out);
+		if(!outf_ThUnit)
+			cout<<"cannot open "<<Resutl_ThUnit<<endl;
+		outf_ThUnit<<endl<<"thermalPower"<<endl;
 		for(t=1;t<cycle+1;t++)
 		{
 			for(i=0;i<thUnitNum;i++)
 			{
 				if(cplex.getValue(thermalPower[i][t])<_INF)
-					outf<<"0\t";
+					outf_ThUnit<<"0\t";
 				else
-					outf<<cplex.getValue(thermalPower[i][t])<<"\t";
+					outf_ThUnit<<cplex.getValue(thermalPower[i][t])<<"\t";
 			}
-			outf<<endl;
+			outf_ThUnit<<endl;
 
 		}
 
-		outf<<endl<<"thermalR"<<endl;
+		outf_ThUnit<<endl<<"thermalR"<<endl;
 		for(t=1;t<cycle+1;t++)
 		{
 			for(i=0;i<thUnitNum;i++)
 			{
 				if(cplex.getValue(thermalR[i][t])<1e-7)
-					outf<<"0\t";
+					outf_ThUnit<<"0\t";
 				else
-					outf<<cplex.getValue(thermalR[i][t])<<"\t";
+					outf_ThUnit<<cplex.getValue(thermalR[i][t])<<"\t";
 			}
-			outf<<endl;
+			outf_ThUnit<<endl;
 		}
-
-
-
-
-		outf<<"current[l][t]"<<endl;
+		outf_ThUnit.close();
+		
+		ofstream outf_Line(Result_Line,ios::out);
+		if(!outf_Line)
+			cout<<"cannot open "<<Result_Line<<endl;
 		double current[100][200];
 		for (t = 1; t < cycle+1; t++)
 		{				 		 
@@ -810,19 +835,20 @@ int main(int argc, char *argv[])
 				double gamap=0;
 				for (i = 0; i < thUnitNum; i++)
 				{
-					gamap+=gama[l][unitLocation[i]-1]*cplex.getValue(thermalPower[i][t]);
+					gamap+=gama[l][(int)(unitLocation[i]-1)]*cplex.getValue(thermalPower[i][t]);
 				}
 				double gamaD=0;
 				for (d = 0; d < demandNum; d++)
 				{
-					gamaD+=gama[l][demandLocation[d]-1]*sysDemand[t]*demand[d][t-1];
+					gamaD+=gama[l][(int)(demandLocation[d]-1)]*sysDemand[t]*demand[d];
 				} 
 				current[l][t]=gamap-gamaD;	
-				outf<<current[l][t]<<"\t";
+				outf_Line<<current[l][t]<<"\t";
 			}
-			outf<<endl;
+			outf_Line<<endl;
 		}
-		outf<<endl;
+		outf_Line<<endl;
+		outf_Line.close();
 	}
 	catch (IloException& e) 
 	{

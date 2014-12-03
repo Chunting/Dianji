@@ -2,10 +2,20 @@
 #include <fstream>
 #include <math.h>
 #include <ilconcert/ilomodel.h>
-/*
-*/
+
+#define OUTFILEDATA "./Bus31/check.dat" 
+#define OUTFILERESULT "./Bus31/result.dat"
+#define lp "./Bus31/hydrothermal.lp"
+#define SYSTEMDATA "./Bus31/SystemData.dat" 
+#define APPDATA "./Bus31/AppData.dat"
+#define THUNITDATA "./Bus31/thunitdata.dat"
+#define NETDATA "./Bus31/netdata.dat"
+#define GAMADATA "./Bus31/gamadata.dat"
+
+#define Resutl_ThUnit "./Bus31/Result_ThUnit.dat"
+#define Result_Line "./Bus31/Result_Line.dat"
 ILOSTLBEGIN
-	typedef IloArray<IloNumArray> Matrix2;  //typedef为 IloArray<IloNumArray> 起别名Matrix2，以便于后面运用时的书写
+typedef IloArray<IloNumArray> Matrix2;  //typedef为 IloArray<IloNumArray> 起别名Matrix2，以便于后面运用时的书写
 typedef IloArray<Matrix2> Matrix3;
 typedef IloArray<Matrix3> Matrix4;
 typedef IloArray<Matrix4> Matrix5;
@@ -39,12 +49,10 @@ int readSystemData(char* systemdata,
 				   IloNum& horizen			//时段长度  1
 				   )
 {
-
 	ifstream fin(systemdata,ios::in);
 	if(!fin) 
 		env.out()<<"problem with file:"<<systemdata<<endl;
 	fin>>cycle;
-	cycle*=1;
 	fin>>thUnitNum;
 	fin>>demandNum;
 	fin>>lineNum;
@@ -60,7 +68,7 @@ int readNetData(char* netdata,
 				IloEnv env,                                   
 				IloNumArray& unitLocation,               //机组所在bus编号
 				IloNumArray& demandLocation,            //负载所在bus编号
-				Matrix2& demand,                      //各负载需求系数
+				IloNumArray& demand,                      //各负载需求系数
 				IloNumArray& lineCap                     //传输能力
 				)
 {
@@ -77,21 +85,11 @@ int readNetData(char* netdata,
 	{
 		fin>> demandLocation[i];
 	}
-	/**
+
 	for(i=0;i< demandNum;i++)
 	{
-	fin>> demand[i];
+		fin>> demand[i];
 	}
-	**/
-
-	for(i=0;i<demandNum;i++)
-	{
-		for(t=1;t<cycle+1;t++)
-		{
-			fin>>demand[i][t];
-		}
-	}
-
 
 	for(i=0;i<lineNum;i++)
 	{
@@ -118,12 +116,9 @@ int readGama(char* gamgadata,IloEnv env,Matrix2& gama)
 	return 0;
 }
 
-
-
-
 //************读取火电机组数据函数************************
 int readThUnitData(char* thunitdata,
-				   IloEnv env,                                   //定义环境变量
+				   IloEnv env,                                     //定义环境变量
 				   IloNumArray& thminPower,                        //机组最小发电量
 				   IloNumArray& thmaxPower,                        //机组最大发电量
 				   IloNumArray& thminDown,                         //机组最小关机时间
@@ -133,14 +128,14 @@ int readThUnitData(char* thunitdata,
 				   IloNumArray& thhotUpCost,                       //热启动费用
 				   IloNumArray& thcoldUpCost,			           //冷启动费用 IloNumArray& hotUpTime
 				   IloNumArray& thdelta,						   //爬升
-				   IloNumArray& thfirstLast,                       //首末开机约束，取0，1
+				//   IloNumArray& thfirstLast,                       //首末开机约束，取0，1
 				   IloNumArray& thmaxR,                            //机组最大备用	
 				   IloNumArray& tha,							   //燃料费用曲线上系数a		
 				   IloNumArray& thb,							   //燃料费用曲线上系数b		
 				   IloNumArray& thc,						       //燃料费用曲线上系数c
-				   IloNumArray& thminFuelCost,                        //机组最小发电费用
-				   IloNumArray& thmaxFuelCost,                        //机组最大发电费用
-				   IloNumArray& thinitState,                        //机组初始状态
+				   IloNumArray& thminFuelCost,                     //机组最小发电费用
+				   IloNumArray& thmaxFuelCost,                     //机组最大发电费用
+				   IloNumArray& thinitState,                       //机组初始状态
 				   IloNumArray& thinitPower                        //机组初始发电量			 
 				   )
 {
@@ -201,13 +196,13 @@ int readThUnitData(char* thunitdata,
 	{
 		fin>>thdelta[i];
 	}
-
+  /*
 	//read firstlast
 	for(i=0;i<thUnitNum;i++)
 	{
 		fin>>thfirstLast[i];
 	}
-
+  */
 	//read maxR
 	for(i=0;i<thUnitNum;i++)
 	{
@@ -246,8 +241,6 @@ int readThUnitData(char* thunitdata,
 	{
 		fin>>thinitPower[i];
 	}
-
-
 	return 0;
 }
 
