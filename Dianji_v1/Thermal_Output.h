@@ -114,10 +114,10 @@ int readSystemData(const char* systemdata, IloEnv env, IloInt& cycle, IloInt& th
 //************************************
 int readNetData(const char* netdata,
 				IloEnv env,                                   
-				IloNumArray& unitLocation,               
+				IloIntArray& unitLocation,               
 		//		IloNumArray& windLocation,               
-				IloNumArray& demandLocation,            
-				IloNumArray& outputLocation,            
+				IloIntArray& demandLocation,            
+				IloIntArray& outputLocation,            
 				IloNumArray& demand,           
 				IloNumArray& lineCap 
 				)
@@ -207,7 +207,7 @@ int readThUnitData(const char* thunitdata,
 				   IloNumArray& thminDown,                         
 				   IloNumArray& thminUp,                          
 				   IloNumArray& thcoldUpTime,                      
-				   IloNumArray& thfuelCostPieceNum,                
+				   IloIntArray& thfuelCostPieceNum,                
 				   IloNumArray& thhotUpCost,                       
 				   IloNumArray& thcoldUpCost,			           
 				   IloNumArray& thdelta,						   
