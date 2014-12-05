@@ -17,7 +17,7 @@ ILOSTLBEGIN
 	int main(int argc, char *argv[])
 {
 	//IloEnv env;
-	IloInt t,i,j,k,l,d,w,s,day;
+	IloInt t,i,j,l,d,s,k;
 	try
 	{
 		IloModel model(env);
@@ -32,16 +32,20 @@ ILOSTLBEGIN
 			outputNum,
 			lineNum,			
 			busNum,			
-			horizon
+			rigionNum
 			);
 		ifstream fin(APPDATA,ios::in);
 		if(!fin) 
 			env.out()<<"problem with file:"<<APPDATA<<endl;
-		IloNumArray sysDemand(env,cycle+1);
+		Matrix2 sysDemand(env,rigionNum);
 		IloNumArray sysReserve(env,cycle+1);
 		Matrix2 outputMaxPower(env,outputNum);
 		Matrix2 outputMinPower(env,outputNum);
 		//	Matrix2 windPower(env,windUnitNum);
+		for (d=0;d<rigionNum;++d)
+		{
+			sysDemand[d]=IloNumArray(env,cycle+1);
+		}
 		/*	
 		for (w=0;w<windUnitNum;++w)
 		{
@@ -56,8 +60,10 @@ ILOSTLBEGIN
 		{
 			outputMinPower[s]=IloNumArray(env,cycle+1);
 		}
-		for(t=1;t<cycle+1;t++)
-			fin>>sysDemand[t];
+		for(k=0; k<rigionNum; ++k) {
+			for(t=1;t<cycle+1;t++)
+				fin>>sysDemand[k][t];
+		}
 		for(t=1;t<cycle+1;t++)
 			fin>>sysReserve[t];
 		/*
@@ -205,6 +211,7 @@ ILOSTLBEGIN
 		tfile<<"lineNum\t"<<lineNum<<endl;
 		tfile<<"busNum\t"<<busNum<<endl;
 		tfile<<"demandNum\t"<<demandNum<<endl;
+		tfile<<"rigionNum\t"<<rigionNum<<endl;
 
 		tfile<<endl<<"Net data"<<endl;
 		tfile<<endl<<"unit location"<<endl;
@@ -224,8 +231,10 @@ ILOSTLBEGIN
 			tfile<<outputLocation[i]<<"\t";
 		}
 		tfile<<endl<<"System Demand"<<endl;
-		for(t=1;t<cycle+1;++t){
-			tfile<<sysDemand[t]<<"\t";
+		for(k=0; k<4; ++k) {
+			for(t=1;t<cycle+1;++t){
+				tfile<<sysDemand[k][t]<<"\t";
+			}
 		}
 		tfile<<endl<<"System Reserve"<<endl;
 		for(t=1;t<cycle+1;++t){
@@ -495,68 +504,70 @@ ILOSTLBEGIN
 		/*	  In this expression, I introduce wind power and power output;      */
 		/*	  however, regard outputPower as a demand in the system.		    */
 		/************************************************************************/
-		
-		VarMatrix outputPower(env,outputNum);
+		VarMatrix2 outputPower(env,outputNum);
 		//	VarMatrix2 windR(env,windUnitNum);
 		VarMatrix2 _outputR(env,outputNum);
 		VarMatrix2 _outputRN(env,outputNum);
 
 		//	for(w=0;w<windUnitNum;++w)
 		//		windR[w]=IloNumVarArray(env,cycle+1,0,windMaxPower[w],ILOFLOAT);
-		for(s=0;s<outputNum;++s){
-			outputPower[s]=IloNumVarArray(env,cycle+1,-outputMaxPower[s][1],outputMaxPower[s][1],ILOFLOAT);
-			_outputR[s]=IloNumVarArray(env,cycle+1,-2500,2500,ILOFLOAT);
-			_outputRN[s]=IloNumVarArray(env,cycle+1,-2500,2500,ILOFLOAT);
-		}
+		
 
 		for(t=1;t<cycle+1;t++)
 		{
+			for(s=0;s<outputNum;++s){
+			outputPower[s] = IloNumVarArray(env,cycle+1,outputMinPower[s][t],outputMaxPower[s][t],ILOFLOAT);
+			_outputR[s]=IloNumVarArray(env,cycle+1,outputMinPower[s][t],outputMaxPower[s][t],ILOFLOAT);
+			_outputRN[s]=IloNumVarArray(env,cycle+1,outputMinPower[s][t],outputMaxPower[s][t],ILOFLOAT);
 
+		}
 			IloExpr thsummaxp(env);
 			IloExpr thsumminp(env);
 			//	IloExpr thsum(env);
 			//	IloExpr windsum(env);
+			IloExpr outputsum(env);
 			IloExpr outputsum1(env);
 			IloExpr outputsum2(env);
 			IloExpr outputsum3(env);
 			IloExpr outputsum4(env);
 			outputsum1 = outputPower[0][t] + outputPower[1][t] + outputPower[2][t] + outputPower[3][t] + outputPower[4][t];
 			outputsum2 = outputPower[5][t] + outputPower[6][t] + outputPower[7][t] + outputPower[8][t] ;
-			outputsum3 = outputPower[9][t] + outputPower[10][t] + outputPower[11][t] + outputPower[12][t] + outputPower[13][t] + outputPower[14][t] + outputPower[15][t];
+			outputsum3 = outputPower[9][t] + outputPower[10][t] + outputPower[11][t] + outputPower[12][t] + outputPower[13][t] - outputPower[14][t] - outputPower[15][t];
 			outputsum4 = outputPower[16][t] + outputPower[17][t] + outputPower[18][t] + outputPower[19][t] + outputPower[20][t] + outputPower[21][t] ;
-			//	outputsum2
-			//	outputsum3
-			//	outputsum4
-			for( int k = 0; k<4; ++k) {
+			for( int k = 0; k<rigionNum; ++k) {
 				IloExpr thsum(env);
 				for(i=0;i<thUnitNum/4;i++)
 				{
 					thsum += thermalPower[16*k+i][t];
-					//	thsummaxp += thmaxPower[i]*state[i][t];
-					//	thsumminp += thminPower[i]*state[i][t];
+						thsummaxp += thmaxPower[i]*state[i][t];
+						thsumminp += thminPower[i]*state[i][t];
 				}
+				
 				if( k == 0 )
-					model.add(thsum  == sysDemand[t] + outputsum1);		
+					model.add(thsum - outputsum1 == sysDemand[k][t] );		
 				if( k == 1 )
-					model.add(thsum  == sysDemand[t] + outputsum2);	
+					model.add(thsum - outputsum2 == sysDemand[k][t] );	
 				if( k == 2 )
-					model.add(thsum  == sysDemand[t] + outputsum3);	
+					model.add(thsum + outputsum3 == sysDemand[k][t] );	
 				if( k == 3 )
-					model.add(thsum  == sysDemand[t] + outputsum4);	
-
+					model.add(thsum + outputsum4 == sysDemand[k][t] );	
+				 
 			}
+		//	model.add( outputsum1 + outputsum2 - outputsum3 - outputsum4 == 0 );
+
 			/*
 			for(i=0;i<windUnitNum;i++)
 			{
 			windsum+=windPower[i][t];
 			}
-			*/
+			
 			for(i=0;i<outputNum;i++)
 			{
-				//	outputsum += outputPower[i][t];
+				outputsum += outputPower[i][t];
 			}
-			//	model.add(0  == outputsum);
-			//	model.add(thsum  == 4*sysDemand[t]+outputsum);
+			*/
+			//	model.add(outputsum  == 0);
+			//	model.add(thsum  == 4*sysDemand[t] - outputsum);
 			//	model.add(thsummaxp >= 4*sysDemand[t] + sysReserve[t]);
 			//	model.add(thsummaxp  >= 4*sysDemand[t] + sysReserve[t] + outputsum);
 			//	model.add(thsumminp <= 4*sysDemand[t] + outputsum);
@@ -597,7 +608,7 @@ ILOSTLBEGIN
 				outputRN+=_outputRN[s][t];
 			}
 			model.add(thsum+outputRP == sysReserve[t]);
-			model.add(thsumN+outputRN == 0.375*sysReserve[t]);
+		//	model.add(thsumN+outputRN == 0.375*sysReserve[t]);
 		}
 		/************************************************************************/
 		/*			Constraints of output transmission capacity		By Chun-Ting    */
@@ -606,27 +617,27 @@ ILOSTLBEGIN
 		{
 			for(s=0;s<outputNum;++s)
 			{
-				///	model.add(outputPower[s][t] - _outputR[s][t] >= outputMinPower[s][t]);
-				//	model.add(outputPower[s][t] + _outputRN[s][t] <= outputMaxPower[s][t]);
+					model.add(outputPower[s][t] - _outputR[s][t] >= outputMinPower[s][t]);
+					model.add(outputPower[s][t] + _outputRN[s][t] <= outputMaxPower[s][t]);
 			}
 		}
-		IloRangeArray c(env);
-		IloExpr e1(env);
+
 		for(t=1;t<cycle+1;t++)
 		{
-			model.add(IloAbs( outputPower[0][t] + outputPower[19][t]) == 0 ) ;
-			model.add( IloAbs( outputPower[1][t] + outputPower[18][t]) == 0 ) ;
-			model.add(  outputPower[2][t] + outputPower[12][t] == 0 ) ;
-			model.add(  outputPower[3][t] + outputPower[9][t] == 0 ) ;
-			model.add(  outputPower[4][t] + outputPower[10][t] == 0 ) ;
-			model.add(  outputPower[5][t] + outputPower[17][t] == 0 ) ;
-			model.add(  outputPower[6][t] + outputPower[20][t] == 0 ) ;
-			model.add(  outputPower[7][t] + outputPower[13][t] == 0 ) ;
-			model.add(  outputPower[8][t] + outputPower[11][t] == 0 ) ;
-			model.add(  outputPower[14][t] + outputPower[16][t] == 0 ) ;
-			model.add(  outputPower[15][t] + outputPower[21][t] == 0 ) ;  
+		
+			model.add(  outputPower[0][t] - outputPower[19][t] == 0 ) ;
+			model.add(  outputPower[1][t] - outputPower[18][t] == 0 ) ;
+			model.add(  outputPower[2][t] - outputPower[12][t] == 0 ) ;
+			model.add(  outputPower[3][t] - outputPower[9][t] == 0 ) ;
+			model.add(  outputPower[4][t] - outputPower[10][t] == 0 ) ;
+			model.add(  outputPower[5][t] - outputPower[17][t] == 0 ) ;
+			model.add(  outputPower[6][t] - outputPower[20][t] == 0 ) ;
+			model.add(  outputPower[7][t] - outputPower[13][t] == 0 ) ;
+			model.add(  outputPower[8][t] - outputPower[11][t] == 0 ) ;
+			model.add(  outputPower[14][t] - outputPower[16][t] == 0 ) ;
+			model.add(  outputPower[15][t] - outputPower[21][t] == 0 ) ;
+			
 		}
-		//model.add(e1 == -10);
 
 		/************************************************************************/
 		/*						Ramp rate			By Chun-Ting                */
@@ -636,7 +647,7 @@ ILOSTLBEGIN
 		{
 			for (t=1; t<cycle+1;t++)
 			{
-				model.add(IloAbs(thermalPower[i][t]-thermalPower[i][t-1]) <= thdelta[i]*horizon);
+				model.add(IloAbs(thermalPower[i][t]-thermalPower[i][t-1]) <= thdelta[i]);
 			}
 		}
 		/************************************************************************/
@@ -819,16 +830,23 @@ ILOSTLBEGIN
 				sumGamaW+=gama[l][windLocation[w]-1]*windPower[w][t];
 				}
 				*/
-				for (d = 0; d < demandNum; d++)
-				{
-					sumGamaD+=gama[l][demandLocation[d]-1]*sysDemand[t]*demand[d];
-				} 
+				for(k=0; k<rigionNum; ++k) {
+					for (d = 0; d < demandNum/4; d++)
+					{
+						IloInt index = 	demandNum*k/4 + d;
+						sumGamaD+=gama[l][demandLocation[index]-1]*sysDemand[k][t]*demand[index];
+					} 
+				}
 				for (s= 0; s < outputNum; ++s)
 				{
-					sumGamaO+=gama[l][outputLocation[s]-1]*outputPower[s][t];
+					if(s<9 || s == 14 || s == 15)
+						sumGamaO += gama[l][outputLocation[s]-1]*outputPower[s][t];
+					else 
+						sumGamaW += gama[l][outputLocation[s]-1]*outputPower[s][t];
 				} 
-				model.add(sumGamaP - sumGamaD - sumGamaO + lineCap[l] >= 0);				 		
-				model.add(sumGamaP - sumGamaD - sumGamaO - lineCap[l] <= 0); 
+				model.add(sumGamaP - sumGamaD - sumGamaO + sumGamaW + lineCap[l] >= 0);				 		
+				model.add(sumGamaP - sumGamaD - sumGamaO + sumGamaW - lineCap[l] <= 0); 
+			//	model.add(sumGamaO - sumGamaW == 0);
 			}
 
 		}
@@ -894,7 +912,6 @@ ILOSTLBEGIN
 		outf<<"FuelCostsum\t"<<cplex.getValue(fuelCostsum)<<endl;
 		outf<<"OutputProfile\t"<<cplex.getValue(outputCostsum)<<endl;
 		outf<<"OutputRCost\t"<<cplex.getValue(outputRCost)<<endl;
-		outf<<"e1\t"<<cplex.getValue(e1)<<endl;
 		//outf<<"OutPut Power\t"<<cplex.getValue(outputsum)<<endl;
 		/*double allFuelCost=0;
 		for(i=0;i<thUnitNum;i++)
@@ -915,7 +932,6 @@ ILOSTLBEGIN
 		{
 			for(i=0;i<thUnitNum;i++)
 			{	
-
 				if(cplex.getValue(state[i][t])<_INF)
 					outf_ThUnit<<"0\t";
 				else
@@ -1052,11 +1068,12 @@ ILOSTLBEGIN
 				{
 					gamaP+=gama[l][unitLocation[i]-1]*cplex.getValue(thermalPower[i][t]);
 				}
-
-				for (d = 0; d < demandNum; d++)
-				{
-					gamaD+=gama[l][demandLocation[d]-1]*sysDemand[t]*demand[d];
-				} 
+				for(k=0; k<rigionNum; ++k) {
+					for (d = 0; d < demandNum; d++)
+					{
+						gamaD+=gama[l][demandLocation[d]-1]*sysDemand[k][t]*demand[d];
+					} 
+				}
 				/*
 				for (w = 0; w < windUnitNum; ++w)
 				{
@@ -1065,14 +1082,32 @@ ILOSTLBEGIN
 				*/
 				for (s= 0; s < outputNum; ++s)
 				{
-					gamaO+=gama[l][outputLocation[s]-1]*cplex.getValue(outputPower[s][t]);
-				} 
+					if(s<9 || s == 14 || s == 15) {
+						gamaO += gama[l][outputLocation[s]-1]*cplex.getValue(outputPower[s][t]);
+					}else {
+						gamaO -= gama[l][outputLocation[s]-1]*cplex.getValue(outputPower[s][t]);
+					} 
+				}
+			//	env.out() << "gamaO: " <<gamaO<<"\t";
 				current[l][t] = gamaP - gamaD - gamaO;	
 				if (fabs(current[l][t])<_INF)  current[l][t]=0;
 				outf_Line<<current[l][t]<<"\t";
-
+				
 			}
 			outf_Line<<endl;
+			/*
+			for(l= 0; l< lineNum; l++)
+			{
+			double gamaO=0;
+			outf_Line<<"gamaO "<<endl;
+				for (s= 0; s < outputNum; ++s)
+				{
+					gamaO += gama[l][outputLocation[s]-1]*cplex.getValue(outputPower[s][t]);
+					outf_Line<<gama[l][outputLocation[s]-1]*cplex.getValue(outputPower[s][t])<<"\t";
+					
+				}
+			}
+			*/
 
 		}
 		outf_Line.close();

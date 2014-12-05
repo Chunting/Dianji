@@ -17,7 +17,7 @@ typedef IloArray<VarMatrix4>VarMatrix5;
 typedef IloArray<VarMatrix5>VarMatrix6;
 
 //**********定义全局变量************
-IloNum horizon;
+IloInt rigionNum;
 IloInt cycle;			
 IloInt thUnitNum;  
 IloInt windUnitNum;
@@ -68,7 +68,7 @@ int readSystemData(const char* systemdata,
 				   IloInt& outputNum,        
 				   IloInt& lineNum,			
 				   IloInt& busNum,			
-				   IloNum& horizen			
+				   IloInt& rigionNum			
 				   )
 {
 
@@ -83,7 +83,7 @@ int readSystemData(const char* systemdata,
 	fin>>outputNum;
 	fin>>lineNum;
 	fin>>busNum;
-	fin>>horizon;
+	fin>>rigionNum;
 	fin.close();
 	return 0;
 }
@@ -124,7 +124,7 @@ int readNetData(const char* netdata,
 {
 	ifstream fin(netdata,ios::in);
 	if(!fin) env.out()<<"problem with file:"<<netdata <<endl;
-	int i,t;
+	int i;
 
 	for(i=0;i<thUnitNum;i++)
 	{
@@ -340,7 +340,7 @@ int readWindUnitData (
 					  ){
 						  ifstream fin(WINDDATA,ios::in);
 						  if(!fin) env.out()<<"problem with file:"<<WINDDATA<<endl;
-						  int w,t;
+						  int w;
 						  for(w=0;w<windUnitNum;++w){
 							  fin>>windUnitMaxOutput[w];
 						  }
@@ -364,7 +364,7 @@ int pieceThUnitData(IloEnv env,
 					IloNumArray& thc,							  
 					IloNumArray& thminPower,                        
 					IloNumArray& thmaxPower,						
-					IloNumArray& thfuelCostPieceNum,  
+					IloIntArray& thfuelCostPieceNum,  
 					Matrix2& thminPiecePower,                 
 					Matrix2& thmaxPiecePower,
 					Matrix2& thminFuelPieceCost,
