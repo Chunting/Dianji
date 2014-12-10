@@ -27,7 +27,6 @@ ILOSTLBEGIN
 			env,
 			cycle,			
 			thUnitNum,		
-			//	windUnitNum,
 			demandNum,		
 			outputNum,
 			lineNum,			
@@ -41,17 +40,10 @@ ILOSTLBEGIN
 		IloNumArray sysReserve(env,cycle+1);
 		Matrix2 outputMaxPower(env,outputNum);
 		Matrix2 outputMinPower(env,outputNum);
-		//	Matrix2 windPower(env,windUnitNum);
 		for (d=0;d<rigionNum;++d)
 		{
 			sysDemand[d]=IloNumArray(env,cycle+1);
 		}
-		/*	
-		for (w=0;w<windUnitNum;++w)
-		{
-		windPower[w]=IloNumArray(env,cycle+1);
-		}
-		*/
 		for (s=0;s<outputNum;++s)
 		{
 			outputMaxPower[s]=IloNumArray(env,cycle+1);
@@ -66,13 +58,6 @@ ILOSTLBEGIN
 		}
 		for(t=1;t<cycle+1;t++)
 			fin>>sysReserve[t];
-		/*
-		for(w=0;w<windUnitNum;++w)
-		{
-		for(t=1;t<cycle+1;++t)
-		fin>>windPower[w][t];
-		}
-		*/
 		for(s=0;s<outputNum;++s){
 			for(t=1;t<cycle+1;++t)
 				fin>>outputMaxPower[s][t];
@@ -84,7 +69,6 @@ ILOSTLBEGIN
 		}
 
 		IloIntArray unitLocation(env,thUnitNum);
-		//	IloIntArray windLocation(env,windUnitNum);
 		IloIntArray demandLocation(env,demandNum);
 		IloIntArray outputLocation(env,outputNum);
 		IloNumArray demand(env,demandNum);
@@ -92,7 +76,6 @@ ILOSTLBEGIN
 
 		readNetData(NETDATA,env, 
 			unitLocation,              
-			//	windLocation,
 			demandLocation,            
 			outputLocation,
 			demand,                    
@@ -139,14 +122,6 @@ ILOSTLBEGIN
 			thinitState,
 			thinitPower
 			);
-		//***************** Read initialed wind power ******
-		/*	IloNumArray windMaxPower(env,windUnitNum);
-		//	IloNumArray windMinPower(env,windUnitNum);
-		readWindUnitData(WINDDATA,env,cycle,
-		windUnitNum,
-		windMaxPower,
-		windMinPower);
-		*/
 		//******************读取火电分段线性数据*************
 		Matrix2      thfuelCostPieceSlope(env,thUnitNum);
 		for(i=0;i<thUnitNum;i++)
@@ -254,19 +229,6 @@ ILOSTLBEGIN
 			if((i+1)%39 == 0)
 				tfile << endl;
 		}
-		/*
-		tfile<<endl<<"Gama"<<endl; 
-		tfile<<"busNum "<<busNum<<" linNum "<<lineNum<<endl;
-		for(j=0;j<lineNum;j++)
-		{
-		for(i=0;i<busNum;i++)
-		{
-		if(i%10==0) tfile<<endl;
-		tfile<<gama[j][i]<<"\t";
-		}
-		tfile<<endl;
-		}	
-		*/
 		tfile<<endl<<"Thermal Unit data"<<endl;
 		tfile<<endl<<"thminPower"<<endl;
 		for(i=0;i<thUnitNum;i++)
@@ -354,70 +316,7 @@ ILOSTLBEGIN
 		{
 			tfile<<thinitPower[i]<<"\t";
 		}
-		/*
-		tfile<<endl<<"Optimal piecewise linear approximation"<<endl;
-		tfile<<"thminFuelPieceCost"<<endl;
-		for(i=0;i<thUnitNum;i++)
-		{
-		for(j=0;j<thfuelCostPieceNum[i];j++)
-		{
-		tfile<<thminFuelPieceCost[i][j]<<"\t";
-		}
-		tfile<<endl;
-		}
-		tfile<<endl<<"thmaxFuelPieceCost"<<endl;
-		for(i=0;i<thUnitNum;i++)
-		{
-		for(j=0;j<thfuelCostPieceNum[i];j++)
-		{
-		tfile<<thmaxFuelPieceCost[i][j]<<"\t";
-		}
-		tfile<<endl;
-		}
-		tfile<<endl<<"thminPiecePower"<<endl;
-		for(i=0;i<thUnitNum;i++)
-		{
-		for(j=0;j<thfuelCostPieceNum[i];j++)
-		{
-		tfile<<thminPiecePower[i][j]<<"\t";
-		}
-		tfile<<endl;
-		}
-		tfile<<endl<<"thmaxPiecePower"<<endl;
-		for(i=0;i<thUnitNum;i++)                                                        
-		{
-		for(j=0;j<thfuelCostPieceNum[i];j++)
-		{
-		tfile<<thmaxPiecePower[i][j]<<"\t";
-		}
-		tfile<<endl;
-		}
-		tfile<<endl<<"thfuelCostPieceSlope"<<endl;
-		for(i=0;i<thUnitNum;i++)
-		{
-		for(j=0;j<thfuelCostPieceNum[i];j++)
-		{
-		tfile<<thfuelCostPieceSlope[i][j]<<"\t";
-		}
-		tfile<<endl;
-		}
-		*/
-		/*
-		tfile<<endl<<"Forecasted wind generation "<<endl;
-		for(i=0;i<windUnitNum;i++)
-		{
-		for(t=1;t<cycle+1;++t)
-		{
-		tfile<<windPower[i][t]<<"\t";
-		}
-		tfile<<endl;
-		}
-		tfile<<endl<<" Maximum wind generation"<<endl;
-		for(i=0;i<windUnitNum;++i)
-		{
-		tfile<<windMaxPower[i]<<"\t";
-		}
-		*/
+	
 		tfile<<endl<<"Maximum output of system "<<endl;
 		for(s=0;s<outputNum;++s){
 			for(t=1;t<cycle+1;++t)
@@ -508,11 +407,6 @@ ILOSTLBEGIN
 		//	VarMatrix2 windR(env,windUnitNum);
 		VarMatrix2 _outputR(env,outputNum);
 		VarMatrix2 _outputRN(env,outputNum);
-
-		//	for(w=0;w<windUnitNum;++w)
-		//		windR[w]=IloNumVarArray(env,cycle+1,0,windMaxPower[w],ILOFLOAT);
-		
-
 		for(t=1;t<cycle+1;t++)
 		{
 			for(s=0;s<outputNum;++s){
@@ -523,8 +417,6 @@ ILOSTLBEGIN
 		}
 			IloExpr thsummaxp(env);
 			IloExpr thsumminp(env);
-			//	IloExpr thsum(env);
-			//	IloExpr windsum(env);
 			IloExpr outputsum(env);
 			IloExpr outputsum1(env);
 			IloExpr outputsum2(env);
@@ -553,24 +445,6 @@ ILOSTLBEGIN
 					model.add(thsum + outputsum4 == sysDemand[k][t] );	
 				 
 			}
-		//	model.add( outputsum1 + outputsum2 - outputsum3 - outputsum4 == 0 );
-
-			/*
-			for(i=0;i<windUnitNum;i++)
-			{
-			windsum+=windPower[i][t];
-			}
-			
-			for(i=0;i<outputNum;i++)
-			{
-				outputsum += outputPower[i][t];
-			}
-			*/
-			//	model.add(outputsum  == 0);
-			//	model.add(thsum  == 4*sysDemand[t] - outputsum);
-			//	model.add(thsummaxp >= 4*sysDemand[t] + sysReserve[t]);
-			//	model.add(thsummaxp  >= 4*sysDemand[t] + sysReserve[t] + outputsum);
-			//	model.add(thsumminp <= 4*sysDemand[t] + outputsum);
 		}
 
 		/************************************************************************/
@@ -594,14 +468,6 @@ ILOSTLBEGIN
 				thsum+=thermalR[i][t];
 				thsumN+=thermalRN[i][t];
 			}
-			/*	
-			for(w=0;w<windUnitNum;++w)
-			{
-			model.add(windR[w][t]==IloMin(r*windPower[w][t],windMaxPower[w]-windPower[w][t]));
-			windRP+=windR[w][t];
-			windRN+=r*windPower[w][t];
-			}
-			*/
 			for(s=0;s<outputNum;++s)
 			{
 				outputRP+=_outputR[s][t];
