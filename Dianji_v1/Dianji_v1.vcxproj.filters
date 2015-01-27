@@ -20,9 +20,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Thermal_Bus31.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Thermal_Output.h">
       <Filter>Header Files</Filter>
     </ClInclude>

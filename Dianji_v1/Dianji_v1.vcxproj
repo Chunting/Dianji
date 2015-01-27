@@ -82,7 +82,6 @@
     <ClCompile Include="Thermal_Output.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Thermal_Bus31.h" />
     <ClInclude Include="Thermal_Output.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
